@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Mail;
 
 class UserController extends ApiController
 {
+
+  public function __construct()
+  {
+    parent::__construct();
+    $this->middleware('transform.input:' . UserResource::class)->only(['store', 'update']);
+  }
   /**
    * Display a listing of the resource.
    */
