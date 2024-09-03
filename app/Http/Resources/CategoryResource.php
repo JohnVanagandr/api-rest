@@ -20,7 +20,29 @@ class CategoryResource extends JsonResource
       'detalles' => $this->description,
       'fechaCreacion' => $this->created_at,
       'fechaActualizacion' => $this->updated_at,
-      'fechaEliminacion' => $this->deleted_at
+      'fechaEliminacion' => $this->deleted_at,
+      'links' => [
+        [
+          'rel' => 'self',
+          'href' => route('categories.show', $this->id),
+        ],
+        [
+          'rel' => 'category.buyers',
+          'href' => route('categories.buyers.index', $this->id)
+        ],
+        [
+          'rel' => 'category.products',
+          'href' => route('categories.products.index', $this->id)
+        ],
+        [
+          'rel' => 'category.sellers',
+          'href' => route('categories.sellers.index', $this->id)
+        ],
+        [
+          'rel' => 'category.transactions',
+          'href' => route('categories.transactions.index', $this->id)
+        ]
+      ],
     ];
   }
 

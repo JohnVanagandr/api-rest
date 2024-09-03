@@ -24,7 +24,29 @@ class ProductResource extends JsonResource
       'vendedor' => $this->seller_id,
       'fechaCreacion' => $this->created_at,
       'fechaActualizacion' => $this->updated_at,
-      'fechaEliminacion' => $this->deleted_at
+      'fechaEliminacion' => $this->deleted_at,
+      'links' => [
+        [
+          'rel' => 'self',
+          'href' => route('products.show', $this->id),
+        ],
+        [
+          'rel' => 'product.buyers',
+          'href' => route('products.buyers.index', $this->id)
+        ],
+        [
+          'rel' => 'product.catefories',
+          'href' => route('products.categories.index', $this->id)
+        ],
+        [
+          'rel' => 'product.transactions',
+          'href' => route('products.transactions.index', $this->id)
+        ],
+        [
+          'rel' => 'seller',
+          'href' => route('sellers.show', $this->seller_id)
+        ]
+      ],
     ];
   }
 

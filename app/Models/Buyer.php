@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\BuyerResource;
 use App\Scopes\BuyerScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -9,7 +10,7 @@ class Buyer extends User
 {
   use HasFactory;
 
-  public  $trasnformer = BuyerScope::class;
+  public  $trasnformer = BuyerResource::class;
 
   protected static function boot()
   {

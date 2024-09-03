@@ -23,6 +23,13 @@ class UserResource extends JsonResource
       'fechaCreacion' => $this->created_at,
       'fechaActualizacion' => $this->updated_at,
       'fechaEliminacion' => $this->deleted_at,
+
+      'links' => [
+        [
+          'rel' => 'self',
+          'href' => route('users.show', $this->id),
+        ],
+      ]
     ];
   }
 

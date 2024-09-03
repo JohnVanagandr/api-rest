@@ -21,7 +21,29 @@ class TransactionResource extends JsonResource
       'producto' => $this->product_id,
       'fechaCreacion' => $this->created_at,
       'fechaActualizacion' => $this->updated_at,
-      'fechaEliminacion' => $this->deleted_at
+      'fechaEliminacion' => $this->deleted_at,
+      'links' => [
+        [
+          'rel' => 'self',
+          'href' => route('transactions.show', $this->id),
+        ],
+        [
+          'rel' => 'transaction.catefories',
+          'href' => route('transactions.categories.index', $this->id)
+        ],
+        [
+          'rel' => 'transaction.seller',
+          'href' => route('transactions.sellers.index', $this->id)
+        ],
+        [
+          'rel' => 'buyer',
+          'href' => route('buyers.show', $this->buyer_id)
+        ],
+        [
+          'rel' => 'product',
+          'href' => route('products.show', $this->product_id)
+        ]
+      ],
     ];
   }
 
