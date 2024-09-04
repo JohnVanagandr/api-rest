@@ -9,6 +9,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -107,6 +108,10 @@ class Handler extends ExceptionHandler
       }
     }
 
+    if ($exception instanceof TokenMismatchException) {
+      return redirect()->back()->withInput($request->input());
+    }
+
     if (config('app.debug')) {
       return $this->errorResponse("Falla inesperada. Intente luego", 500);
     }
@@ -123,6 +128,9 @@ class Handler extends ExceptionHandler
    */
   protected function unauthenticated($request, AuthenticationException $exception)
   {
+    if ($this->isFrontend($request)) {
+      return redirect()->guest('login');
+    }
     return $this->errorResponse("No autenticado.", 401);
   }
 
@@ -137,6 +145,19 @@ class Handler extends ExceptionHandler
   protected function convertValidationExceptionToResponse(ValidationException $e, $request)
   {
     $errors = $e->validator->errors()->getMessages();
+
+    if ($this->isFrontend($request)) {
+      return $request->ajax() ? response()->json($errors, 422) : redirect()
+        ->back()
+        ->withInput()
+        ->withErrors($errors);
+    }
     return $this->errorResponse($errors, 422);
+  }
+
+  // Método para validar que sea solicitudes desde la aplicación web del proyecto
+  private function isFrontend($request)
+  {
+    return $request->acceptsHtml() &&  collect($request->route()->middleware())->contains('web');
   }
 }

@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 
 class CategorySellerController extends ApiController
 {
+  public function __construct()
+  {
+    $this->middleware('auth:api');
+  }
   /**
    * Display a listing of the resource.
    */

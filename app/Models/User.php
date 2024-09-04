@@ -12,10 +12,15 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 use Illuminate\Support\Str;
+use Laravel\Passport\HasApiTokens as PassportHasApiTokens;
 
 class User extends Authenticatable
 {
-  use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+  use HasFactory, Notifiable, SoftDeletes;
+  // Trait de laravel passport
+  use PassportHasApiTokens;
+  // Trait de sanctum
+  // use HasApiTokens;
 
   const USUARIO_VERIFICADO = '1';
   const USUARIO_NO_VERIFICADO = '0';
