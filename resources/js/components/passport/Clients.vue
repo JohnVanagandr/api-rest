@@ -1,40 +1,24 @@
-<style scoped>
-.action-link {
-    cursor: pointer;
-}
-
-.m-b-none {
-    margin-bottom: 0;
-}
-</style>
-
 <template>
     <div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div
-                    style="
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                    "
-                >
+        <div class="card p-3">
+            <div class="card-heading">
+                <div class="d-flex justify-content-between align-items-center">
                     <span> OAuth Clients </span>
 
-                    <a class="action-link" @click="showCreateClientForm">
+                    <a class="btn btn-primary" @click="showCreateClientForm">
                         Create New Client
                     </a>
                 </div>
             </div>
 
-            <div class="panel-body">
+            <div class="card-body">
                 <!-- Current Clients -->
                 <p class="m-b-none" v-if="clients.length === 0">
                     You have not created any OAuth clients.
                 </p>
 
                 <table
-                    class="table table-borderless m-b-none"
+                    class="table table-striped table-bordered"
                     v-if="clients.length > 0"
                 >
                     <thead>
@@ -66,18 +50,21 @@
 
                             <!-- Edit Button -->
                             <td style="vertical-align: middle">
-                                <a class="action-link" @click="edit(client)">
-                                    Edit
+                                <a
+                                    class="btn btn-primary"
+                                    @click="edit(client)"
+                                >
+                                    <i class="bi bi-pencil-square"></i>
                                 </a>
                             </td>
 
                             <!-- Delete Button -->
                             <td style="vertical-align: middle">
                                 <a
-                                    class="action-link text-danger"
+                                    class="btn btn-danger"
                                     @click="destroy(client)"
                                 >
-                                    Delete
+                                    <i class="bi bi-trash"></i>
                                 </a>
                             </td>
                         </tr>
@@ -96,16 +83,13 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button
-                            type="button "
-                            class="close"
-                            data-dismiss="modal"
-                            aria-hidden="true"
-                        >
-                            &times;
-                        </button>
-
                         <h4 class="modal-title">Create Client</h4>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                        ></button>
                     </div>
 
                     <div class="modal-body">
@@ -133,7 +117,7 @@
                                     >Name</label
                                 >
 
-                                <div class="col-md-7">
+                                <div class="col-md-12">
                                     <input
                                         id="create-client-name"
                                         type="text"
@@ -155,7 +139,7 @@
                                     >Redirect URL</label
                                 >
 
-                                <div class="col-md-7">
+                                <div class="col-md-12">
                                     <input
                                         type="text"
                                         class="form-control"
@@ -177,8 +161,8 @@
                     <div class="modal-footer">
                         <button
                             type="button"
-                            class="btn btn-default"
-                            data-dismiss="modal"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
                         >
                             Close
                         </button>
@@ -205,16 +189,13 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button
-                            type="button "
-                            class="close"
-                            data-dismiss="modal"
-                            aria-hidden="true"
-                        >
-                            &times;
-                        </button>
-
                         <h4 class="modal-title">Edit Client</h4>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                        ></button>
                     </div>
 
                     <div class="modal-body">
@@ -242,7 +223,7 @@
                                     >Name</label
                                 >
 
-                                <div class="col-md-7">
+                                <div class="col-md-12">
                                     <input
                                         id="edit-client-name"
                                         type="text"
@@ -264,7 +245,7 @@
                                     >Redirect URL</label
                                 >
 
-                                <div class="col-md-7">
+                                <div class="col-md-12">
                                     <input
                                         type="text"
                                         class="form-control"
@@ -286,10 +267,10 @@
                     <div class="modal-footer">
                         <button
                             type="button"
-                            class="btn btn-default"
-                            data-dismiss="modal"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
                         >
-                            Close
+                            Cerrar
                         </button>
 
                         <button
@@ -307,6 +288,7 @@
 </template>
 
 <script>
+import { Modal } from "bootstrap";
 export default {
     /*
      * The component's data.
@@ -341,6 +323,12 @@ export default {
      */
     mounted() {
         this.prepareComponent();
+        this.modalCreate = new Modal(
+            document.getElementById("modal-create-client")
+        );
+        this.modalEdit = new Modal(
+            document.getElementById("modal-edit-client")
+        );
     },
 
     methods: {
@@ -349,14 +337,6 @@ export default {
          */
         prepareComponent() {
             this.getClients();
-
-            $("#modal-create-client").on("shown.bs.modal", () => {
-                $("#create-client-name").focus();
-            });
-
-            $("#modal-edit-client").on("shown.bs.modal", () => {
-                $("#edit-client-name").focus();
-            });
         },
 
         /**
@@ -372,12 +352,7 @@ export default {
          * Show the form for creating new clients.
          */
         showCreateClientForm() {
-            // $('#modal-create-client').modal('show');
-            // const myButton = document.getElementById('my-button-id');
-            let modal = bootstrap.Modal.getOrCreateInstance(
-                document.getElementById("modal-create-client")
-            );
-            modal.show();
+            this.modalCreate.show();
         },
 
         /**
@@ -399,8 +374,7 @@ export default {
             this.editForm.id = client.id;
             this.editForm.name = client.name;
             this.editForm.redirect = client.redirect;
-
-            $("#modal-edit-client").modal("show");
+            this.modalEdit.show();
         },
 
         /**
@@ -429,11 +403,19 @@ export default {
                     form.redirect = "";
                     form.errors = [];
 
-                    $(modal).modal("hide");
+                    if (modal == "#modal-edit-client") {
+                        this.modalEdit.hide();
+                    } else {
+                        this.modalCreate.hide();
+                    }
                 })
                 .catch((error) => {
+                    console.log(error.response.data);
                     if (typeof error.response.data === "object") {
-                        form.errors = _.flatten(_.toArray(error.response.data));
+                        // form.errors = _.flatten(_.toArray(error.response.data));
+                        form.errors = [
+                            "Something went wrong. Please try again",
+                        ];
                     } else {
                         form.errors = [
                             "Something went wrong. Please try again.",

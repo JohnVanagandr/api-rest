@@ -4,10 +4,11 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import * as bootstrap from './bootstrap';
-import { createApp } from 'vue';
-window.bootstrap = bootstrap;
+import './bootstrap';
+// import './passport';
 
+import { createApp } from 'vue';
+// window.Modal = bootstrapJS.Modal;
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
  * registering components with the application instance so they are ready
@@ -16,10 +17,13 @@ window.bootstrap = bootstrap;
 
 const app = createApp({});
 
-import ExampleComponent from './components/ExampleComponent.vue';
+import PersonalComponent from './components/passport/PersonalAccessTokens.vue';
 import ClientsComponent from './components/passport/Clients.vue';
-app.component('example-component', ExampleComponent);
+import AuthorizedComponent from './components/passport/AuthorizedClients.vue';
+
+app.component('personal-component', PersonalComponent);
 app.component('clients-component', ClientsComponent);
+app.component('authorized-component', AuthorizedComponent);
 
 /**
  * The following block of code may be used to automatically register your
@@ -39,4 +43,10 @@ app.component('clients-component', ClientsComponent);
  * scaffolding. Otherwise, you will need to add an element yourself.
  */
 
+// app.provide('bootstrap', bootstrapJS);
 app.mount('#app');
+
+// import { clientes } from './passport';
+// clientes()
+
+

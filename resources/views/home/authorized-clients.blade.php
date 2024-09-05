@@ -9,7 +9,7 @@
 
                     </div>
                     <div class="card-body">
-                        <clients-component></clients-component>
+                        <authorized-component></authorized-component>
                     </div>
                 </div>
             </div>

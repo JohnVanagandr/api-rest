@@ -35,9 +35,15 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         @if (Auth::check())
-                            <li><a href="{{ route('personal-tokens') }}">My Tokens</a></li>
-                            {{-- <li><a href="{{ route('personal-clients') }}">My Clients</a></li>
-                            <li><a href="{{ route('authorized-clients') }}">Authorized Clients</a></li> --}}
+                            <li class="nav-item">
+                                <a href="{{ route('personal-tokens') }}" class="nav-link">My Tokens</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('personal-clients') }}" class="nav-link">My Clients</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('authorized-clients') }}" class="nav-link">Authorized Clients</a>
+                            </li>
                         @endif
                     </ul>
 
